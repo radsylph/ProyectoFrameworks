@@ -16,6 +16,7 @@ export default function Dialog() {
     console.log(selectedTable.columns);
     const key = selectedTable.columns.map((c, idx) => idx);
     key.forEach((k) => {
+      //test
       const tableinputs = document.getElementById(k);
       const { value } = tableinputs;
       setinputs((prev) => [...prev, value]);
