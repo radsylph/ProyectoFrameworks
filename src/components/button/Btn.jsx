@@ -1,29 +1,55 @@
 import { useEffect, useState } from "react";
 import "./Btn.css";
-export function Btn() {
-  const [count, setCount] = useState(0);
+export function Btn({ result, table }) {
   useEffect(() => {
     console.log("Btn");
+    console.log(result);
+    console.log(table.name);
+    console.log(table.columns);
   }, []);
 
   const BtnCreate = () => {
-    // pasar los parametro para crear el insert a la tabla
-    console.log("Create nose");
+    const values = result
+      .map((value) => {
+        if (isNaN(value)) {
+          return `'${value}'`;
+        } else {
+          return value;
+        }
+      })
+      .join(", ");
+    const columns = table.columns.map((column) => `${column}`).join(", ");
+    const query = `INSERT INTO ${table.name} (${columns}) VALUES (${values});`;
+    console.log(columns);
+    console.log(query);
   };
 
   const BtnRead = () => {
-    // hacer la query en general
-    console.log("Read nose ");
+    const query = `SELECT * FROM ${table.name};`;
+    console.log(query);
   };
 
   const BtnUpdate = () => {
-    // pasar los parametro para crear el update a la tabla
-    console.log("Update nose ");
+    let params = "";
+    for (let i = 1; i < table.columns.length; i++) {
+      params += `${table.columns[i]} = `;
+      if (isNaN(result[i])) {
+        params += `'${result[i]}'`;
+      } else {
+        params += `${result[i]}`;
+      }
+      params += ", ";
+    }
+    params = params.slice(0, -2);
+
+    const query = `UPDATE ${table.name} SET ${params} WHERE ${table.columns[0]} = ${result[0]};`;
+    console.log(query);
   };
 
   const BtnDelete = () => {
-    // pasar los parametro para crear el delete a la tabla
     console.log("Delete nose");
+    const query = `DELETE FROM ${table.name} WHERE ${table.columns[0]} = ${result[0]};`;
+    console.log(query);
   };
 
   const handleBtnFunction = (e) => {

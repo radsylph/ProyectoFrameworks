@@ -4,18 +4,22 @@ import { Btn } from "../button/Btn";
 import axios from "axios";
 export default function Dialog() {
   useEffect(() => {
-    console.log("Dialog");
+    //console.log("Dialog");
   }, []);
 
   const [tables, setTables] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [inputsinfo, setinputsinfo] = useState(false);
+  const [inputs, setinputs] = useState([]);
 
-  const getInputInfo = () => {
+  const getInputInfo = (e) => {
+    setinputs("");
+    console.log(selectedTable.columns);
     const key = selectedTable.columns.map((c, idx) => idx);
-    console.log(key);
     key.forEach((k) => {
       const tableinputs = document.getElementById(k);
-      console.log(tableinputs.value);
+      const { value } = tableinputs;
+      setinputs((prev) => [...prev, value]);
+      setinputsinfo(true);
     });
   };
 
@@ -49,7 +53,7 @@ export default function Dialog() {
         if (tables.some((t) => t.name === tableName)) {
           return;
         } else {
-          addTable(tableName, tableColumns); // Llamamos a addTable aquí después de obtener los datos de la API
+          addTable(tableName, tableColumns);
         }
       })
       .catch((error) => {
@@ -69,6 +73,7 @@ export default function Dialog() {
           columns: columns,
         },
       ]);
+      setvalues(true);
     }
   };
 
@@ -134,7 +139,7 @@ export default function Dialog() {
         </table>
       </div>
       <aside className="CBtn">
-        <Btn />
+        {inputsinfo && <Btn result={inputs} table={selectedTable} />}
         <button onClick={import_tables}>importar</button>
         <button onClick={getInputInfo}>input info</button>
       </aside>
