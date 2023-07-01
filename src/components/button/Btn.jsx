@@ -9,7 +9,7 @@ export function Btn({ result, table }) {
   }, []);
 
   const BtnCreate = () => {
-    const values = result
+    const values = result //test
       .map((value) => {
         if (isNaN(value)) {
           return `'${value}'`;
