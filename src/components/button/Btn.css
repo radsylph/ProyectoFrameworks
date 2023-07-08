@@ -1,0 +1,12 @@
+.Btn {
+  cursor: pointer;
+  border: 2px solid black;
+  margin: 4px;
+  padding: auto;
+}
+
+.container {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
