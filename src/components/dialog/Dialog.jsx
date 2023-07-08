@@ -1,29 +1,33 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Dialog.css";
 import { Btn } from "../button/Btn";
+import { Table } from "../table/Table";
+import { Input } from "../input/Input";
+import { Select } from "../select/Select";
 import axios from "axios";
+
 export default function Dialog() {
   useEffect(() => {
-    //console.log("Dialog");
+    console.log("Dialog");
   }, []);
 
+  const inputContainer = useRef(null);
   const [tables, setTables] = useState([]);
   const [inputsinfo, setinputsinfo] = useState(false);
   const [inputs, setinputs] = useState([]);
+  const [table, settable] = useState(false);
+  const [select, setselect] = useState(false);
 
   const getInputInfo = (e) => {
     setinputs("");
     console.log(selectedTable.columns);
     const key = selectedTable.columns.map((c, idx) => idx);
     key.forEach((k) => {
-      //test
-      const tableinputs = document.getElementById(k);
-      const { value } = tableinputs;
-      setinputs((prev) => [...prev, value]);
+      const tableinputs = inputContainer.current.children[k].children[1];
+      setinputs((prev) => [...prev, tableinputs.value]);
       setinputsinfo(true);
     });
   };
-
   const import_tables = () => {
     console.log("import_tables");
     axios
@@ -46,7 +50,7 @@ export default function Dialog() {
   const table_columns = (tableName) => {
     console.log("table_columns");
     axios
-      .get(`http://localhost:4000/columns/${tableName}`)
+      .get(`http://localhost:4000/tables/${tableName}`)
       .then((response) => {
         const tableColumns = response.data.data[0].columns;
         console.log(tableColumns);
@@ -74,7 +78,10 @@ export default function Dialog() {
           columns: columns,
         },
       ]);
-      setvalues(true);
+      //setvalues(true);
+      // setTable(true);
+      setinputs(true);
+      setselect(true);
     }
   };
 
@@ -90,54 +97,13 @@ export default function Dialog() {
 
   return (
     <>
-      {/* esto tiene que ser un componente, no se si poner el option dentro del componente select o hacerlo su propio componente tambin pero hay veo */}
-      <select
-        name="table"
-        id="table"
-        defaultValue={"DEFAULT"}
-        onChange={handler}
-      >
-        {" "}
-        <option value="DEFAULT" disabled hidden>
-          Seleccione una tabla
-        </option>
-        {tables.map((t, idx) => (
-          <option key={idx}>{t.name}</option>
-        ))}
-      </select>
-
+      {setselect && <Select tables={tables} handler={handler} />}
       <h1>{selectedTable.name}</h1>
       <div>
-        {selectedTable.columns ? (
-          selectedTable.columns.map((c, idx) => (
-            <div key={idx}>
-              <label>{c}</label>
-              <input type="text" id={idx} />
-            </div>
-          ))
-        ) : (
-          <></>
+        {settable && (
+          <Input columns={selectedTable.columns} inputRef={inputContainer} />
         )}
-        <table>
-          <thead>
-            <tr>
-              {selectedTable.columns ? (
-                selectedTable.columns.map((c, idx) => <th key={idx}>{c}</th>)
-              ) : (
-                <th></th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {selectedTable.columns ? (
-                selectedTable.columns.map((c, idx) => <td key={idx}></td>)
-              ) : (
-                <td></td>
-              )}
-            </tr>
-          </tbody>
-        </table>
+        {settable && <Table selectedTable={selectedTable} />}
       </div>
       <aside className="CBtn">
         {inputsinfo && <Btn result={inputs} table={selectedTable} />}
