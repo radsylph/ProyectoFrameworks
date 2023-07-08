@@ -1,0 +1,12 @@
+el proyecto se basa en la creacion de un tool case, el cual va a tener como objetivo la 
+gerenacion dinamica de codigo para la creacion de cruds, estos cruds van a ser creados mediante
+comandos npm, por ejmplo npm run crud_gen, este mismo tendra parametros para poder seleccionar
+la tabla a la cual le hara ese curd por ejemplo npm run crud_gen:nombre_de_tabla -g.
+
+el archivo que se creara tendra extension .jsx y sera coleccion de componentes (dialog, input, buttons, grid etc)
+no tiene que tener obligado conexion con base de datos pero como ya esta hecho el backend pues se utiliza lo que se tiene.
+
+solo se tiene que hacer con tablas maestras(las que no dependen de nadie o no les entran flechas)
+las tablas de detalle son opcionales (las que tienen llave foranea).
+
+los inpust para las llaves foraneas deben ser selects. y lo demas le tengo que preguntar a mis compañeros 
