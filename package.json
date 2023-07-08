@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "gen_crud": "node ./scripts/gen_crud.js",
     "preview": "vite preview"
   },
   "dependencies": {
