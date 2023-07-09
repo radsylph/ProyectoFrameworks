@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import "./Btn.css";
-export function Btn({ result, table }) {
+import { TableContext } from "../context/TableContext";
+export function Btn({ result }) {
+
+  const {selectedTable} = useContext(TableContext)
   useEffect(() => {
     console.log("Btn");
     console.log(result);
-    console.log(table.name);
-    console.log(table.columns);
+    console.log(selectedTable.name);
+    console.log(selectedTable.columns);
   }, []);
 
   const BtnCreate = () => {
@@ -18,21 +21,21 @@ export function Btn({ result, table }) {
         }
       })
       .join(", ");
-    const columns = table.columns.map((column) => `${column}`).join(", ");
-    const query = `INSERT INTO ${table.name} (${columns}) VALUES (${values});`;
+    const columns = selectedTable.columns.map((column) => `${column}`).join(", ");
+    const query = `INSERT INTO ${selectedTable.name} (${columns}) VALUES (${values});`;
     console.log(columns);
     console.log(query);
   };
 
   const BtnRead = () => {
-    const query = `SELECT * FROM ${table.name};`;
+    const query = `SELECT * FROM ${selectedTable.name};`;
     console.log(query);
   };
 
   const BtnUpdate = () => {
     let params = "";
-    for (let i = 1; i < table.columns.length; i++) {
-      params += `${table.columns[i]} = `;
+    for (let i = 1; i < selectedTable.columns.length; i++) {
+      params += `${selectedTable.columns[i]} = `;
       if (isNaN(result[i])) {
         params += `'${result[i]}'`;
       } else {
@@ -42,13 +45,13 @@ export function Btn({ result, table }) {
     }
     params = params.slice(0, -2);
 
-    const query = `UPDATE ${table.name} SET ${params} WHERE ${table.columns[0]} = ${result[0]};`;
+    const query = `UPDATE ${selectedTable.name} SET ${params} WHERE ${selectedTable.columns[0]} = ${result[0]};`;
     console.log(query);
   };
 
   const BtnDelete = () => {
     console.log("Delete nose");
-    const query = `DELETE FROM ${table.name} WHERE ${table.columns[0]} = ${result[0]};`;
+    const query = `DELETE FROM ${selectedTable.name} WHERE ${selectedTable.columns[0]} = ${result[0]};`;
     console.log(query);
   };
 

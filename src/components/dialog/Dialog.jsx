@@ -1,31 +1,40 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import "./Dialog.css";
 import { Btn } from "../button/Btn";
 import { Table } from "../table/Table";
 import { Input } from "../input/Input";
 import { Select } from "../select/Select";
 import axios from "axios";
+import { TableContext } from "../context/TableContext";
 
 export default function Dialog() {
   useEffect(() => {
+    import_tables()
     console.log("Dialog");
   }, []);
 
+const {
+  selectedTable,
+  setSelectedTable,
+  tables,
+  setTables
+} = useContext(TableContext)
+
   const inputContainer = useRef(null);
-  const [tables, setTables] = useState([]);
-  const [inputsinfo, setinputsinfo] = useState(false);
-  const [inputs, setinputs] = useState([]);
-  const [table, settable] = useState(false);
-  const [select, setselect] = useState(false);
+  const [inputsinfo, setInputsinfo] = useState(false);
+  const [inputs, setInputs] = useState([]);
+  const [table, setTable] = useState(false);
+  const [select, setSelect] = useState(false);
 
   const getInputInfo = (e) => {
-    setinputs("");
+    setInputs([]);
     console.log(selectedTable.columns);
     const key = selectedTable.columns.map((c, idx) => idx);
     key.forEach((k) => {
+      console.log(inputContainer.current)
       const tableinputs = inputContainer.current.children[k].children[1];
-      setinputs((prev) => [...prev, tableinputs.value]);
-      setinputsinfo(true);
+      setInputs((prev) => [...prev, tableinputs.value]);
+      setInputsinfo(true);
     });
   };
   const import_tables = () => {
@@ -80,12 +89,10 @@ export default function Dialog() {
       ]);
       //setvalues(true);
       // setTable(true);
-      setinputs(true);
-      setselect(true);
+    //  setSelect(true);
     }
   };
 
-  const [selectedTable, setSelectedTable] = useState({});
 
   const handler = (e) => {
     let table = tables.filter((t) => {
@@ -97,17 +104,16 @@ export default function Dialog() {
 
   return (
     <>
-      {setselect && <Select tables={tables} handler={handler} />}
+      <Select tables={tables} handler={handler} />
       <h1>{selectedTable.name}</h1>
       <div>
-        {settable && (
-          <Input columns={selectedTable.columns} inputRef={inputContainer} />
-        )}
-        {settable && <Table selectedTable={selectedTable} />}
+       
+        <Input inputRef={inputContainer}/>
+       
+        <Table/>
       </div>
       <aside className="CBtn">
-        {inputsinfo && <Btn result={inputs} table={selectedTable} />}
-        <button onClick={import_tables}>importar</button>
+        {inputsinfo && <Btn result={inputs}/>}
         <button onClick={getInputInfo}>input info</button>
       </aside>
     </>

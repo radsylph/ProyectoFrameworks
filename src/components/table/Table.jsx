@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TableContext } from "../context/TableContext";
 
 
-export function Table({ selectedTable }) {
+export function Table() {
+  const {selectedTable} = useContext(TableContext)
   return (
     <table>
       <thead>
