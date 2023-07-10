@@ -1,7 +1,7 @@
-import {React , useState, useEffect} from "react"
-export function Select({tables , handler}){
-// const [tables, setTables] = useState([]);
-
+import {React , useState, useEffect, useContext} from "react"
+import { TableContext } from "../context/TableContext";
+export function Select({handler}){
+const {tables} = useContext(TableContext)
     return(
     <div>
         <select

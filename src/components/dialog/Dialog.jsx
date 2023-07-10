@@ -59,9 +59,9 @@ const {
   const table_columns = (tableName) => {
     console.log("table_columns");
     axios
-      .get(`http://localhost:4000/tables/${tableName}`)
+      .get(`http://localhost:4000/getInfo/${tableName}`)
       .then((response) => {
-        const tableColumns = response.data.data[0].columns;
+        const tableColumns = response.data;
         console.log(tableColumns);
 
         if (tables.some((t) => t.name === tableName)) {
@@ -104,7 +104,7 @@ const {
 
   return (
     <>
-      <Select tables={tables} handler={handler} />
+      <Select handler={handler} />
       <h1>{selectedTable.name}</h1>
       <div>
        

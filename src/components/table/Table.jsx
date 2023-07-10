@@ -9,7 +9,7 @@ export function Table() {
       <thead>
         <tr>
           {selectedTable.columns ? (
-            selectedTable.columns.map((c, idx) => <th key={idx}>{c}</th>)
+            selectedTable.columns.map((c, idx) => <th key={idx}>{c.column_name}</th>)
           ) : (
             <th></th>
           )}
