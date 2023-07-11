@@ -2,14 +2,13 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import "./Btn.css";
 import { TableContext } from "../context/TableContext";
 export function Btn({ result }) {
-
-  const {selectedTable} = useContext(TableContext)
+  const { selectedTable } = useContext(TableContext);
   useEffect(() => {
     console.log("Btn");
     console.log(result);
-    console.log(selectedTable.name);
-    console.log(selectedTable.columns);
   }, []);
+
+  const columns = selectedTable.columns.map((column) => column.column_name);
 
   const BtnCreate = () => {
     const values = result //test
@@ -19,11 +18,11 @@ export function Btn({ result }) {
         } else {
           return value;
         }
-      })
-      .join(", ");
-    const columns = selectedTable.columns.map((column) => `${column}`).join(", ");
-    const query = `INSERT INTO ${selectedTable.name} (${columns}) VALUES (${values});`;
-    console.log(columns);
+      });
+    const params = columns.join(", ");
+
+    const query = `INSERT INTO ${selectedTable.name} (${params}) VALUES (${values});`;
+
     console.log(query);
   };
 
@@ -35,7 +34,7 @@ export function Btn({ result }) {
   const BtnUpdate = () => {
     let params = "";
     for (let i = 1; i < selectedTable.columns.length; i++) {
-      params += `${selectedTable.columns[i]} = `;
+      params += `${columns[i]} = `;
       if (isNaN(result[i])) {
         params += `'${result[i]}'`;
       } else {
@@ -45,13 +44,12 @@ export function Btn({ result }) {
     }
     params = params.slice(0, -2);
 
-    const query = `UPDATE ${selectedTable.name} SET ${params} WHERE ${selectedTable.columns[0]} = ${result[0]};`;
+    const query = `UPDATE ${selectedTable.name} SET ${params} WHERE ${columns[0]} = ${result[0]};`;
     console.log(query);
   };
 
   const BtnDelete = () => {
-    console.log("Delete nose");
-    const query = `DELETE FROM ${selectedTable.name} WHERE ${selectedTable.columns[0]} = ${result[0]};`;
+    const query = `DELETE FROM ${selectedTable.name} WHERE ${columns[0]} = ${result[0]};`;
     console.log(query);
   };
 
