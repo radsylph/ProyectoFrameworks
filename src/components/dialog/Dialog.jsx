@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import "./Dialog.css";
-import { Btn } from "../button/Btn";
+
 import { Table } from "../table/Table";
 import { Input } from "../input/Input";
 import { Select } from "../select/Select";
@@ -9,34 +9,15 @@ import { TableContext } from "../context/TableContext";
 
 export default function Dialog() {
   useEffect(() => {
-    import_tables()
+    import_tables();
     console.log("Dialog");
   }, []);
 
-const {
-  selectedTable,
-  setSelectedTable,
-  tables,
-  setTables
-} = useContext(TableContext)
+  const { selectedTable, setSelectedTable, tables, setTables } =
+    useContext(TableContext);
 
   const inputContainer = useRef(null);
-  const [inputsinfo, setInputsinfo] = useState(false);
-  const [inputs, setInputs] = useState([]);
-  const [table, setTable] = useState(false);
-  const [select, setSelect] = useState(false);
 
-  const getInputInfo = (e) => {
-    setInputs([]);
-    console.log(selectedTable.columns);
-    const key = selectedTable.columns.map((c, idx) => idx);
-    key.forEach((k) => {
-      console.log(inputContainer.current)
-      const tableinputs = inputContainer.current.children[k].children[1];
-      setInputs((prev) => [...prev, tableinputs.value]);
-      setInputsinfo(true);
-    });
-  };
   const import_tables = () => {
     console.log("import_tables");
     axios
@@ -87,12 +68,8 @@ const {
           columns: columns,
         },
       ]);
-      //setvalues(true);
-      // setTable(true);
-    //  setSelect(true);
     }
   };
-
 
   const handler = (e) => {
     let table = tables.filter((t) => {
@@ -107,15 +84,11 @@ const {
       <Select handler={handler} />
       <h1>{selectedTable.name}</h1>
       <div>
-       
-        <Input inputRef={inputContainer}/>
-       
-        <Table/>
+        <Input inputRef={inputContainer} />
+
+        <Table />
       </div>
-      <aside className="CBtn">
-        {inputsinfo && <Btn result={inputs}/>}
-        <button onClick={getInputInfo}>input info</button>
-      </aside>
+      <aside className="CBtn"></aside>
     </>
   );
 }
