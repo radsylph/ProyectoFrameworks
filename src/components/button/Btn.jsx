@@ -73,8 +73,8 @@ export function Btn({ result }) {
   };
 
   return (
-    <div className="test">
-      <div className="container">
+    <div className="container">
+      <div className="btn-container">
         <button className="Btn" onClick={handleBtnFunction}>
           Create
         </button>
