@@ -1,9 +1,12 @@
-table,
-th,
-td {
-  border: 1px solid;
-}
 
-.CBtn {
- 
+
+.components-container {
+  border: 2px;
+  border-style: solid;
+  border-color: #db3a3a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
 }

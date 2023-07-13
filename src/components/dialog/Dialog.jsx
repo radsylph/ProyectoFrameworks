@@ -18,23 +18,19 @@ export default function Dialog() {
 
   const inputContainer = useRef(null);
 
-  const import_tables = () => {
-    console.log("import_tables");
-    axios
-      .get("http://localhost:4000/tables")
-      .then((response) => {
-        const tableNames = response.data.data.map((table) => table.tablename);
-        if (tableNames.length === 0) {
-          return;
-        }
-
-        tableNames.forEach((tableName) => {
-          table_columns(tableName);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const addTable = (name, columns) => {
+    console.log("addTable");
+    if (tables.some((t) => t.name === name)) {
+      return;
+    } else {
+      setTables((prevTables) => [
+        ...prevTables,
+        {
+          name: name,
+          columns: columns,
+        },
+      ]);
+    }
   };
 
   const table_columns = (tableName) => {
@@ -56,19 +52,23 @@ export default function Dialog() {
       });
   };
 
-  const addTable = (name, columns) => {
-    console.log("addTable");
-    if (tables.some((t) => t.name === name)) {
-      return;
-    } else {
-      setTables((prevTables) => [
-        ...prevTables,
-        {
-          name: name,
-          columns: columns,
-        },
-      ]);
-    }
+  const import_tables = () => {
+    console.log("import_tables");
+    axios
+      .get("http://localhost:4000/tables")
+      .then((response) => {
+        const tableNames = response.data.data.map((table) => table.tablename);
+        if (tableNames.length === 0) {
+          return;
+        }
+
+        tableNames.forEach((tableName) => {
+          table_columns(tableName);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handler = (e) => {
@@ -80,15 +80,13 @@ export default function Dialog() {
   };
 
   return (
-    <>
+    <div className="components-container">
       <Select handler={handler} />
       <h1>{selectedTable.name}</h1>
       <div>
         <Input inputRef={inputContainer} />
-
         <Table />
       </div>
-      <aside className="CBtn"></aside>
-    </>
+    </div>
   );
 }
