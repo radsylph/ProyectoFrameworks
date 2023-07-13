@@ -1,16 +1,17 @@
-import {React , useState, useEffect, useContext} from "react"
+import { React, useState, useEffect, useContext } from "react";
 import { TableContext } from "../context/TableContext";
-export function Select({handler}){
-const {tables} = useContext(TableContext)
-    return(
-    <div>
-        <select
+import "./Select.css";
+
+export function Select({ handler }) {
+  const { tables } = useContext(TableContext);
+  return (
+    <div className="Select">
+      <select
         name="table"
         id="table"
         defaultValue={"DEFAULT"}
         onChange={handler}
       >
-        {" "}
         <option value="DEFAULT" disabled hidden>
           Seleccione una tabla
         </option>
@@ -19,5 +20,5 @@ const {tables} = useContext(TableContext)
         ))}
       </select>
     </div>
-    );
+  );
 }
