@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import "./Dialog.css";
-
 import { Table } from "../table/Table";
-import { Input } from "../input/Input";
+import { InputContainer } from "../inputContainer/InputContainer";
 import { Select } from "../select/Select";
 import axios from "axios";
 import { TableContext } from "../context/TableContext";
@@ -10,15 +9,11 @@ import { TableContext } from "../context/TableContext";
 export default function Dialog() {
   useEffect(() => {
     import_tables();
-    console.log("Dialog");
   }, []);
-
   const { selectedTable, setSelectedTable, tables, setTables } =
     useContext(TableContext);
-
   const inputContainer = useRef(null);
-
-  const addTable = (name, columns) => {
+  const addTable = (name, columns, data) => {
     console.log("addTable");
     if (tables.some((t) => t.name === name)) {
       return;
@@ -26,25 +21,24 @@ export default function Dialog() {
       setTables((prevTables) => [
         ...prevTables,
         {
-          name: name,
-          columns: columns,
+          name,
+          columns,
+          data,
         },
       ]);
     }
+    console.log(tables);
   };
 
   const table_columns = (tableName) => {
-    console.log("table_columns");
     axios
       .get(`http://localhost:4000/getInfo/${tableName}`)
       .then((response) => {
         const tableColumns = response.data;
-        console.log(tableColumns);
-
         if (tables.some((t) => t.name === tableName)) {
           return;
         } else {
-          addTable(tableName, tableColumns);
+          addTable(tableName, tableColumns.info, tableColumns.data);
         }
       })
       .catch((error) => {
@@ -81,11 +75,15 @@ export default function Dialog() {
 
   return (
     <div className="components-container">
-      <Select handler={handler} />
-      <h1>{selectedTable.name}</h1>
-      <div>
-        <Input inputRef={inputContainer} />
-        <Table />
+      <div className="Dialog-frame">
+        <Select handler={handler} />
+        <div className="Dialog-tableName">
+          <h1>{selectedTable.name}</h1>
+        </div>
+        <div>
+          <InputContainer inputRef={inputContainer} />
+          <Table />
+        </div>
       </div>
     </div>
   );
