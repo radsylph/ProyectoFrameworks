@@ -1,0 +1,60 @@
+.input-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  grid-gap: 4px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+  gap: 3px;
+  padding: 5px;
+  background-color: rgba(9, 1, 43, 0.247);
+}
+
+.input-container > label {
+  font-size: 16px;
+  color: #333;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 5px;
+  text-transform: capitalize;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+.input-grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.input-grid-item > select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: white;
+  font-size: inherit;
+  color: inherit;
+}
+
+.input-grid-item > input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+}
+
+.btncontainer {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
