@@ -5,7 +5,7 @@ import "./Table.css";
 export function Table() {
   const { selectedTable } = useContext(TableContext);
   return (
-    <div className="table-container flex">
+    <div className="table-container flex ">
       <table>
         <thead>
           <tr>
