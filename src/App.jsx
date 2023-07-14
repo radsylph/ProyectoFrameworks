@@ -1,12 +1,10 @@
-
 import Dialog from "./components/dialog/Dialog";
 import "./App.css";
 
 function App() {
-
   return (
     <>
-      <Dialog />
+      <Dialog tabla={"empleado"} />
     </>
   );
 }

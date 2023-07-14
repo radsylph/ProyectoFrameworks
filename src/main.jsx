@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <>
     {/* quitar esto cuando valla a hacer los imports dinamicos de la info de la base de datos */}
-    <TableContextProvider>
+    <TableContextProvider >
        <App />
     </TableContextProvider>
   </>

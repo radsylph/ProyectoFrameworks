@@ -6,15 +6,15 @@ import { Select } from "../select/Select";
 import axios from "axios";
 import { TableContext } from "../context/TableContext";
 
-export default function Dialog({ tabla }) {
+export default function Dialog({tabla}) {
   useEffect(() => {
     import_tables();
   }, []);
-
   const { selectedTable, setSelectedTable, tables, setTables } =
     useContext(TableContext);
   const inputContainer = useRef(null);
   const addTable = (name, columns, data) => {
+    console.log("addTable");
     if (tables.some((t) => t.name === name)) {
       return;
     } else {
@@ -55,28 +55,22 @@ export default function Dialog({ tabla }) {
         if (tableNames.length === 0) {
           return;
         }
-        // tableNames.forEach((tableName) => {
-        table_columns(tabla);
-        // });
+
+        tableNames.forEach((tableName) => {
+          table_columns(tableName);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    console.log("useEffect");
-    if (tables.length === 0) {
-      return;
-    }
-    setSelectedTable(tables[0]);
-  }, [selectedTable]);
 
   const handler = (e) => {
     let table = tables.filter((t) => {
       return t.name == e.target.value;
     });
     console.log(selectedTable);
-    setSelectedTable(tables[0]);
+    setSelectedTable(table[0]);
   };
 
   return (
