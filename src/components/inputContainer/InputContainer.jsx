@@ -49,6 +49,7 @@ export function InputContainer({ inputRef }) {
     });
     setValues(array);
     fkHandler();
+    console.log(selectedTable.columns);
   }, [selectedTable]);
 
   const fkHandler = (e) => {
@@ -97,7 +98,8 @@ export function InputContainer({ inputRef }) {
                       return null;
                     })}
                   </select>
-                ) : (
+                ) : null}
+                {c.data_type === "text" && !c.is_foreign_key && (
                   <input
                     type="text"
                     id={idx}
@@ -106,6 +108,16 @@ export function InputContainer({ inputRef }) {
                     onChange={handler}
                   />
                 )}
+                {(c.data_type === "integer" || c.data_type === "numeric") &&
+                  !c.is_foreign_key && (
+                    <input
+                      type="number"
+                      id={idx}
+                      name={c.column_name}
+                      value={values[c.column_name]}
+                      onChange={handler}
+                    />
+                  )}
               </div>
             </div>
           ))

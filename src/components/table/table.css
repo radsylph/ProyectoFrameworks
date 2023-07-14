@@ -1,3 +1,8 @@
+.table-wrapper {
+  max-height: 200px;
+  
+}
+
 table {
   width: 100%;
   border: 2px solid #ddd;
@@ -17,12 +22,12 @@ table th {
 }
 
 .table-container {
-  gap: 4px;
+  gap: 3px;
   padding: 10px;
   margin: 10px;
   overflow: auto;
-  height: 100%;
   width: auto;
+  height: 100%;
   justify-content: space-around;
   align-items: center;
   background-color: #fff;

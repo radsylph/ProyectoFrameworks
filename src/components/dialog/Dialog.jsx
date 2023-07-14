@@ -69,7 +69,7 @@ export default function Dialog() {
     let table = tables.filter((t) => {
       return t.name == e.target.value;
     });
-    console.log(table[0]);
+    console.log(selectedTable);
     setSelectedTable(table[0]);
   };
 

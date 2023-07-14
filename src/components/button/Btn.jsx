@@ -1,39 +1,46 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import "./Btn.css";
 import { TableContext } from "../context/TableContext";
+import axios from "axios";
 export function Btn({ result }) {
   const { selectedTable } = useContext(TableContext);
-  useEffect(() => {
-    console.log("Btn");
-    console.log(result);
-  }, []);
-
   const columns = selectedTable.columns.map((column) => column.column_name);
 
-  const BtnCreate = () => {
-    const values = result //test
-      .map((value) => {
-        if (isNaN(value)) {
-          return `'${value}'`;
-        } else {
-          return value;
-        }
+  const AxiosCall = (tableName, method, SendData) => {
+    const response = axios
+      .post(`http://localhost:4000/query/${tableName}/${method}`, {
+        data: SendData,
+      })
+      .then((response) => {
+        console.log(response.data);
       });
+  };
+
+  const BtnCreate = () => {
+    const values = result.map((value) => {
+      if (isNaN(value)) {
+        return `'${value}'`;
+      } else {
+        return value;
+      }
+    });
     const params = columns.join(", ");
-
-    const query = `INSERT INTO ${selectedTable.name} (${params}) VALUES (${values});`;
-
-    console.log(query);
+    let data = {
+      parametro: params,
+      valores: values,
+    };
+    AxiosCall(selectedTable.name, "create", data);
   };
 
   const BtnRead = () => {
-    const query = `SELECT * FROM ${selectedTable.name};`;
-    console.log(query);
+    let data = {};
+    AxiosCall(selectedTable.name, "read", data);
   };
 
   const BtnUpdate = () => {
     let params = "";
-    for (let i = 1; i < selectedTable.columns.length; i++) {
+    const columns_q = selectedTable.columns.length;
+    for (let i = 1; i < columns_q; i++) {
       params += `${columns[i]} = `;
       if (isNaN(result[i])) {
         params += `'${result[i]}'`;
@@ -43,16 +50,21 @@ export function Btn({ result }) {
       params += ", ";
     }
     params = params.slice(0, -2);
-
-    const query = `UPDATE ${selectedTable.name} SET ${params} WHERE ${columns[0]} = ${result[0]};`;
-    console.log(query);
+    let data = {
+      parametro: params,
+      columnas: columns,
+      valores: result,
+    };
+    AxiosCall(selectedTable.name, "update", data);
   };
 
   const BtnDelete = () => {
-    const query = `DELETE FROM ${selectedTable.name} WHERE ${columns[0]} = ${result[0]};`;
-    console.log(query);
+    let data = {
+      columnas: columns,
+      valores: result,
+    };
+    AxiosCall(selectedTable.name, "delete", data);
   };
-
   const handleBtnFunction = (e) => {
     switch (e.target.textContent) {
       case "Create":
